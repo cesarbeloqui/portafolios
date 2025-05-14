@@ -9,6 +9,10 @@ const app = express();
 
 // Sirve archivos estáticos de la carpeta ./dist
 app.use(express.static(path.join(path.resolve(), "./dist")));
+
+app.use(express.static(path.join(path.resolve(), "./condiciones")));
+app.use(express.static(path.join(path.resolve(), "./condiciones-tiktok")));
+app.use(express.static(path.join(path.resolve(), "./politica")));
 app.use('/assets', express.static(path.join(path.resolve(), './dist/assets')));
 
 // Middleware de CORS y JSON
@@ -41,6 +45,36 @@ app.post("/contact", async (req, res) => {
   }
 });
 
+// Sirve el archivo HTML para todas las demás rutas
+app.get("/condiciones", async (_req, res) => {
+  try {
+    const html = await readFile("./condiciones/index.html", "utf-8");
+    res.send(html);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+// Sirve el archivo HTML para todas las demás rutas
+app.get("/condiciones-tiktok", async (_req, res) => {
+  try {
+    const html = await readFile("./condiciones-tiktok/index.html", "utf-8");
+    res.send(html);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+// Sirve el archivo HTML para todas las demás rutas
+app.get("/politica-de-privacidad-ads", async (_req, res) => {
+  try {
+    const html = await readFile("./politica/index.html", "utf-8");
+    res.send(html);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+});
 // Sirve el archivo HTML para todas las demás rutas
 app.get("*", async (_req, res) => {
   try {
